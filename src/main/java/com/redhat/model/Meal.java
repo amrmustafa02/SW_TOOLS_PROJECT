@@ -1,16 +1,25 @@
 package com.redhat.model;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.security.PrivateKey;
+import java.util.ArrayList;
 
 @Entity
 public class Meal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    String name;
-    Double price;
+    private  String name;
+    private Double price;
+    private Restaurant restaurant;
+
+    @ManyToOne
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 
     public int getId() {
         return id;
