@@ -10,7 +10,7 @@ public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private ArrayList<Meal> meal;
+    private ArrayList<Meal> meals;
 
     public int getId() {
         return id;
@@ -20,12 +20,12 @@ public class Restaurant {
         this.id = id;
     }
 
-    @OneToMany()
-    public ArrayList<Meal> getMeal() {
-        return meal;
+    @OneToMany
+    public ArrayList<Meal> getMeals() {
+        return meals;
     }
 
-    public void setMeal(ArrayList<Meal> meal) {
-        this.meal = meal;
+    public void setMeals(ArrayList<Meal> meals) {
+        this.meals = meals;
     }
 }
