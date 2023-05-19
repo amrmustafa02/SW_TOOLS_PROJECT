@@ -20,7 +20,7 @@ public class Restaurant {
         this.id = id;
     }
 
-    @OneToMany
+    @OneToMany(mappedBy = "restaurant")
     public ArrayList<Meal> getMeals() {
         return meals;
     }
