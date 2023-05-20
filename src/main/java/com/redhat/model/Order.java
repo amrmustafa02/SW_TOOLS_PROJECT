@@ -1,6 +1,7 @@
 package com.redhat.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 public class Order {
@@ -10,9 +11,19 @@ public class Order {
     double totalPrice;
     String orderStatus;
     Restaurant restaurant;
-
+    private ArrayList<Meal> meals;
 
     Runner runner;
+
+    @ManyToMany()
+    public ArrayList<Meal> getMeals() {
+        return meals;
+    }
+
+    public void setMeals(ArrayList<Meal> meals) {
+        this.meals = meals;
+    }
+
     @ManyToOne()
     public Runner getRunner() {
         return runner;
