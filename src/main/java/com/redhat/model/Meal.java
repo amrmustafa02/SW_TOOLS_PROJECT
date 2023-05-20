@@ -9,7 +9,7 @@ public class Meal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private  String name;
-    private Double price;
+    private double price;
     private Restaurant restaurant;
 
     @ManyToOne

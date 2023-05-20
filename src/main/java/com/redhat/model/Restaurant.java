@@ -10,9 +10,18 @@ public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private String name;
     private ArrayList<Meal> meals;
     private User owner;
     private ArrayList<Order> orders;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @OneToMany
     public ArrayList<Order> getOrders() {
