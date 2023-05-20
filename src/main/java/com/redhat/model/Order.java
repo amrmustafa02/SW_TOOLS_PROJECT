@@ -11,6 +11,17 @@ public class Order {
     String orderStatus;
     Restaurant restaurant;
 
+
+    Runner runner;
+    @ManyToOne()
+    public Runner getRunner() {
+        return runner;
+    }
+
+    public void setRunner(Runner runner) {
+        this.runner = runner;
+    }
+
     public int getId() {
         return id;
     }
