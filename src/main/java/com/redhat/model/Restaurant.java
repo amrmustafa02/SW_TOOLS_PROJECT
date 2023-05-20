@@ -14,8 +14,7 @@ public class Restaurant {
     private String name;
     @OneToMany(mappedBy = "restaurant")
     private Set<Meal> meals;
-    @OneToOne(optional = false,mappedBy = "restaurant")
-    private User owner;
+    private int ownerId;
     @OneToMany(mappedBy="restaurant")
     private Set<Order> orders;
 
@@ -39,13 +38,12 @@ public class Restaurant {
         return id;
     }
 
-
-    public User getOwner() {
-        return owner;
+    public int getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 
     public void setId(int id) {
