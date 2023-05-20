@@ -1,4 +1,5 @@
 constants_data/RoleKeys.class
+managers/RegisterManager.class
 com/redhat/model/Order_.class
 com/redhat/model/Meal.class
 com/redhat/model/Restaurant_.class

@@ -1,5 +1,7 @@
 package com.redhat.model;
 
+import jakarta.validation.constraints.Null;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,10 +10,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
+    private String userName;
     private String role;
-    @OneToOne(optional=false)
-    @JoinColumn
-    private Restaurant restaurant;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public int getId() {
         return id;
@@ -31,15 +48,6 @@ public class User {
 
     public String getRole() {
         return role;
-    }
-
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
     }
 
     public void setRole(String role) {
