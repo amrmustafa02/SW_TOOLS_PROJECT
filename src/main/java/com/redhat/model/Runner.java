@@ -1,10 +1,9 @@
 package com.redhat.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
+import java.util.Set;
+@Entity
 public class Runner {
 
     @Id
@@ -17,6 +16,17 @@ public class Runner {
     private String status;
     @NotNull
     private	double delivery_fees;
+
+
+    private Set<Order> order;
+    @OneToMany(mappedBy = "runner")
+    public Set<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(Set<Order> order) {
+        this.order = order;
+    }
 
     public int getId() {
         return id;
