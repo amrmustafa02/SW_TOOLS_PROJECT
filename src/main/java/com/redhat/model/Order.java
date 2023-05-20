@@ -1,9 +1,7 @@
 package com.redhat.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 @Entity
 public class Order {
     @Id
@@ -11,9 +9,19 @@ public class Order {
     int id;
     double totalPrice;
     String orderStatus;
+    Restaurant restaurant;
 
     public int getId() {
         return id;
+    }
+
+    @ManyToOne
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public void setId(int id) {
