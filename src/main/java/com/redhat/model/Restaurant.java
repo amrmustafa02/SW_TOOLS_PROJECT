@@ -11,9 +11,18 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private ArrayList<Meal> meals;
-
+    private User owner;
     public int getId() {
         return id;
+    }
+
+    @OneToOne
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public void setId(int id) {
