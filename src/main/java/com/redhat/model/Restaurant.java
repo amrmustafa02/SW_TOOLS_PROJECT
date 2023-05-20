@@ -12,6 +12,17 @@ public class Restaurant {
     private int id;
     private ArrayList<Meal> meals;
     private User owner;
+    private ArrayList<Order> orders;
+
+    @OneToMany
+    public ArrayList<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(ArrayList<Order> orders) {
+        this.orders = orders;
+    }
+
     public int getId() {
         return id;
     }
