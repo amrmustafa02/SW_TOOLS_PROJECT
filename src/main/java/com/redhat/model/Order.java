@@ -2,6 +2,7 @@ package com.redhat.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Set;
 
 @Entity
 public class Order {
@@ -10,21 +11,26 @@ public class Order {
     int id;
     double totalPrice;
     String orderStatus;
+    @ManyToOne
     Restaurant restaurant;
-    private ArrayList<Meal> meals;
+    @ManyToMany
+    @JoinTable(
+            name = "MealsXOrders",
+            joinColumns = @JoinColumn(name = "orderId"),
+            inverseJoinColumns = @JoinColumn(name = "mealId"))
+    private Set<Meal> meals;
+    @ManyToOne
+    private Runner runner;
 
-    Runner runner;
-
-    @ManyToMany()
-    public ArrayList<Meal> getMeals() {
+    public Set<Meal> getMeals() {
         return meals;
     }
 
-    public void setMeals(ArrayList<Meal> meals) {
+    public void setMeals(Set<Meal> meals) {
         this.meals = meals;
     }
 
-    @ManyToOne()
+
     public Runner getRunner() {
         return runner;
     }
@@ -37,7 +43,7 @@ public class Order {
         return id;
     }
 
-    @ManyToOne
+
     public Restaurant getRestaurant() {
         return restaurant;
     }

@@ -1,18 +1,34 @@
 package com.redhat.model;
+
 import javax.persistence.*;
 import java.security.PrivateKey;
 import java.util.ArrayList;
+import java.util.Set;
 
 @Entity
 public class Meal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private  String name;
+    private String name;
     private double price;
-    private Restaurant restaurant;
-
     @ManyToOne
+    private Restaurant restaurant;
+    @ManyToMany(mappedBy = "meals")
+    private Set<Order> orders;
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public Restaurant getRestaurant() {
         return restaurant;
     }

@@ -4,6 +4,7 @@ package com.redhat.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Restaurant {
@@ -11,9 +12,12 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    private ArrayList<Meal> meals;
+    @OneToMany(mappedBy = "restaurant")
+    private Set<Meal> meals;
+    @OneToOne(optional = false,mappedBy = "restaurant")
     private User owner;
-    private ArrayList<Order> orders;
+    @OneToMany(mappedBy="restaurant")
+    private Set<Order> orders;
 
     public String getName() {
         return name;
@@ -23,12 +27,11 @@ public class Restaurant {
         this.name = name;
     }
 
-    @OneToMany
-    public ArrayList<Order> getOrders() {
+    public Set<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(ArrayList<Order> orders) {
+    public void setOrders(Set<Order> orders) {
         this.orders = orders;
     }
 
@@ -36,7 +39,7 @@ public class Restaurant {
         return id;
     }
 
-    @OneToOne
+
     public User getOwner() {
         return owner;
     }
@@ -49,12 +52,12 @@ public class Restaurant {
         this.id = id;
     }
 
-    @OneToMany(mappedBy = "restaurant")
-    public ArrayList<Meal> getMeals() {
+
+    public Set<Meal> getMeals() {
         return meals;
     }
 
-    public void setMeals(ArrayList<Meal> meals) {
+    public void setMeals(Set<Meal> meals) {
         this.meals = meals;
     }
 }

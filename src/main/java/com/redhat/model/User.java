@@ -1,9 +1,6 @@
 package com.redhat.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -12,6 +9,9 @@ public class User {
     private int id;
     private String name;
     private String role;
+    @OneToOne(optional=false)
+    @JoinColumn
+    private Restaurant restaurant;
 
     public int getId() {
         return id;
@@ -31,6 +31,15 @@ public class User {
 
     public String getRole() {
         return role;
+    }
+
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public void setRole(String role) {

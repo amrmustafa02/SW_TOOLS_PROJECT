@@ -10,16 +10,16 @@ public class Runner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private	int id;
 
-    @NotNull
+
     private String name;
-    @NotNull
+
     private String status;
-    @NotNull
+
     private	double delivery_fees;
 
-
-    private Set<Order> order;
     @OneToMany(mappedBy = "runner")
+    private Set<Order> order;
+
     public Set<Order> getOrder() {
         return order;
     }
