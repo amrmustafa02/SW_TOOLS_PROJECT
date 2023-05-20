@@ -1,9 +1,11 @@
 package services.registeration;
 
 import com.redhat.model.User;
+import services.RepoManager;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -14,35 +16,28 @@ import java.util.Objects;
 
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@PermitAll
+
 @Stateless
 
 @Path("/")
 public class SignUpApi {
-
-    @PersistenceContext
-    private EntityManager manager;
+    @Inject
+    private RepoManager manager;
 
     @POST
-    @Path("signUp/")
+    @Path("signUp")
     @Consumes(MediaType.APPLICATION_JSON)
     public String signUp(User user) {
         if (checkUserIfExist(user)) {
             return "User already exist";
         }
-        manager.persist(user);
+        System.out.println("test1");
+        manager.addNewUser(user);
         return "Successfully sign up ,your id is " + user.getId();
     }
 
-    @GET
-    @Path("/getAllUsers")
-    public List<User> test() {
-        return getUsers();
-    }
-
     public List<User> getUsers() {
-        TypedQuery<User> q = manager.createQuery("SELECT user  FROM User user", User.class);
-        return q.getResultList();
+        return manager.getAllUsers();
     }
 
     public boolean checkUserIfExist(User newUser) {
