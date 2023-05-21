@@ -1,7 +1,7 @@
 package com.redhat.model;
 
 import javax.annotation.Generated;
-import javax.persistence.metamodel.SetAttribute;
+import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -13,7 +13,7 @@ public abstract class Runner_ {
 	public static volatile SingularAttribute<Runner, String> name;
 	public static volatile SingularAttribute<Runner, Integer> id;
 	public static volatile SingularAttribute<Runner, String> status;
-	public static volatile SetAttribute<Runner, Order> order;
+	public static volatile ListAttribute<Runner, Order> order;
 
 }
 

@@ -1,4 +1,4 @@
-package services;
+package services.manager;
 
 import com.redhat.model.User;
 
@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
-public class RepoManager {
+public class UserManager {
 
     @PersistenceContext
     private EntityManager manager;

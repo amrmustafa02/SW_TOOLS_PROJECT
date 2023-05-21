@@ -4,7 +4,7 @@ package com.redhat.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
 
 @Entity
 public class Restaurant {
@@ -12,7 +12,7 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant",fetch = FetchType.EAGER)
     private List<Meal> meals;
     private int ownerId;
     @Transient

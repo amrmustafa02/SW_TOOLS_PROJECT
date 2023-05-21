@@ -1,4 +1,5 @@
 constants_data/RoleKeys.class
+services/manager/UserManager.class
 com/redhat/model/Order_.class
 services/registeration/SignUpApi.class
 com/redhat/model/Meal.class
@@ -9,7 +10,7 @@ com/redhat/model/User.class
 com/redhat/model/Restaurant.class
 com/redhat/model/Runner_.class
 services/menues/RestaurantServicesApi.class
-services/RepoManager.class
 com/redhat/model/Runner.class
 com/redhat/model/Order.class
 Service.class
+services/manager/RestaurantManager.class
