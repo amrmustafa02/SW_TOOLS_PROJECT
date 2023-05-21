@@ -12,11 +12,16 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    @OneToMany(mappedBy = "restaurant")
-    private Set<Meal> meals;
     private int ownerId;
-    @OneToMany(mappedBy="restaurant")
-    private Set<Order> orders;
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
+    private List<Meal> meals;
+    @Transient
+    private List<Order> orders;
+
+   public Restaurant() {
+        orders = new ArrayList<>();
+
+    }
 
     public String getName() {
         return name;
@@ -26,11 +31,11 @@ public class Restaurant {
         this.name = name;
     }
 
-    public Set<Order> getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<Order> orders) {
+    public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
 
@@ -51,11 +56,11 @@ public class Restaurant {
     }
 
 
-    public Set<Meal> getMeals() {
+    public List<Meal> getMeals() {
         return meals;
     }
 
-    public void setMeals(Set<Meal> meals) {
+    public void setMeals(List<Meal> meals) {
         this.meals = meals;
     }
 }

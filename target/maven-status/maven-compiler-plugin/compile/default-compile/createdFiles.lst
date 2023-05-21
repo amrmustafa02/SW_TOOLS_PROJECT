@@ -4,12 +4,13 @@ services/registeration/SignUpApi.class
 com/redhat/model/Meal.class
 com/redhat/model/Restaurant_.class
 com/redhat/model/User_.class
+services/managers/UserManager.class
 com/redhat/model/Meal_.class
 com/redhat/model/User.class
 com/redhat/model/Restaurant.class
 com/redhat/model/Runner_.class
 services/menues/RestaurantServicesApi.class
-services/RepoManager.class
+services/managers/RestaurantManager.class
 com/redhat/model/Runner.class
 com/redhat/model/Order.class
 Service.class
