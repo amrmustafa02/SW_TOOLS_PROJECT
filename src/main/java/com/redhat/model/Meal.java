@@ -3,6 +3,7 @@ package com.redhat.model;
 import javax.persistence.*;
 import java.security.PrivateKey;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,13 +16,13 @@ public class Meal {
     @ManyToOne
     private Restaurant restaurant;
     @ManyToMany(mappedBy = "meals")
-    private Set<Order> orders;
+    private List<Order> orders;
 
-    public Set<Order> getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<Order> orders) {
+    public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
 
