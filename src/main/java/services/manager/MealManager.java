@@ -1,11 +1,13 @@
 package services.manager;
 
 import com.redhat.model.Meal;
-import com.redhat.model.Restaurant;
+import com.redhat.model.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Stateless
 public class MealManager {
@@ -16,12 +18,21 @@ public class MealManager {
         manager.persist(meal);
     }
 
-    public Meal getAllMeal(int id) {
+    public void updateMeal(Meal meal) {
+        manager.merge(meal);
+    }
+
+    public Meal getMeal(int id) {
         return manager.find(Meal.class, id);
     }
 
-    public void updateMeal(Meal meal) {
-        manager.merge(meal);
+    public List<Meal> getAllMeals() {
+        TypedQuery<Meal> q = manager.createQuery("SELECT meal  FROM Meal meal", Meal.class);
+        return q.getResultList();
+    }
+
+    public void removeMeal(Meal meal) {
+        manager.remove(meal);
     }
 
 }

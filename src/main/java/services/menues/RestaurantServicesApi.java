@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -74,7 +75,7 @@ public class RestaurantServicesApi {
         //convert from Meal to meal Json
         List<MealJson> mealJsons = new ArrayList<>();
         for (Meal meal : restaurant.getMeals()) {
-            mealJsons.add(new MealJson(meal.getName(), meal.getPrice()));
+            mealJsons.add(new MealJson(meal.getId(), meal.getName(), meal.getPrice()));
         }
         List<OrderJson> orderJsons = new ArrayList<>();
 
@@ -101,7 +102,41 @@ public class RestaurantServicesApi {
         managerMeal.addNewMeal(meal);
         restaurant.getMeals().add(meal);
         manager.updateRestaurant(restaurant);
-        return "add successfully";
+        return "add successfully+ " + meal.getId();
+    }
+
+    @POST
+    @Path("UpdateMeal/{id}/{mealId}")
+    public String updateMeal(Meal meal, @PathParam("id") int id, @PathParam("mealId") int mealId) {
+        Restaurant restaurant = manager.getRestaurantDetails(id);
+        Set<Meal> meals = restaurant.getMeals();
+        for (Meal resMeal : meals) {
+            if (resMeal.getId() == mealId) {
+                resMeal.setName(meal.getName());
+                resMeal.setPrice(meal.getPrice());
+                manager.updateRestaurant(restaurant);
+                return "update successfully";
+            }
+        }
+        return "meal not found in this restaurant";
+
+    }
+
+    @POST
+    @Path("deleteMeal/{id}/{mealId}")
+    public String deleteMeal(@PathParam("id") int id, @PathParam("mealId") int mealId) {
+        Restaurant restaurant = manager.getRestaurantDetails(id);
+        Set<Meal> meals = restaurant.getMeals();
+        for (Meal resMeal : meals) {
+            if (resMeal.getId() == mealId) {
+                managerMeal.removeMeal(resMeal);
+                meals.remove(resMeal);
+                manager.updateRestaurant(restaurant);
+
+                return "deleted successfully+ " + meals.size();
+            }
+        }
+        return "meal not found in this restaurant";
     }
 
     @POST
@@ -130,4 +165,13 @@ public class RestaurantServicesApi {
         }
         return new RestaurantReport(totalEarn, completedOrders, canceledOrders);
     }
+
+//    private Set<Meal> deleteMeal(int id, Set<Meal> meals) {
+//        Set<Meal> newMeals = new HashSet<>();
+//        for (Meal resMeal : meals) {
+//            if (resMeal.getId() != id) {
+//
+//            }
+//        }
+//    }
 }
