@@ -3,9 +3,11 @@ package services.menues;
 import Jsons_present.MealJson;
 import Jsons_present.OrderJson;
 import Jsons_present.RestaurantJson;
+import Jsons_present.RestaurantReport;
 import com.redhat.model.Meal;
 import com.redhat.model.Orders;
 import com.redhat.model.Restaurant;
+import constants_data.OrderStatus;
 import services.manager.MealManager;
 import services.manager.OrdersManager;
 import services.manager.RestaurantManager;
@@ -16,6 +18,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -47,13 +50,13 @@ public class RestaurantServicesApi {
             order.setOrderRes(restaurant);
             manager.addNewOrder(order);
         }
-        Orders order = new Orders();
-        order.setOrderRes(restaurant);
-        order.setTotalPrice(12);
-        order.setOrderStatus("busy");
+//        Orders order = new Orders();
+//        order.setOrderRes(restaurant);
+//        order.setTotalPrice(12);
+//        order.setOrderStatus("busy");
 
-        manager.addNewOrder(order);
-        restaurant.getOrders().add(order);
+//        manager.addNewOrder(order);
+//        restaurant.getOrders().add(order);
 
         try {
             Restaurant restaurant1 = manager.getRestaurantDetails(restaurant.getId());
@@ -104,11 +107,27 @@ public class RestaurantServicesApi {
     @POST
     @Path("addOrder")
     public OrderJson addOrder(Orders orders) {
-//        order.setOrderRes(null);
-
+        // order.setOrderRes(null);
         orderManager.addNewOrder(orders);
         return new OrderJson(orders.getTotalPrice(), orders.getOrderStatus());
-
     }
 
+    @GET
+    @Path("getReport/{id}")
+    public RestaurantReport getReport(@PathParam("id") int id) {
+        // var to sum
+        int totalEarn = 0, completedOrders = 0, canceledOrders = 0;
+
+        Restaurant restaurant = manager.getRestaurantDetails(id);
+        Set<Orders> orders = restaurant.getOrders();
+        for (Orders order : orders) {
+            if (order.getOrderStatus().equals(OrderStatus.delivered)) {
+                totalEarn += order.getTotalPrice();
+                completedOrders++;
+            } else if (order.getOrderStatus().equals(OrderStatus.canceled)) {
+                canceledOrders++;
+            }
+        }
+        return new RestaurantReport(totalEarn, completedOrders, canceledOrders);
+    }
 }
