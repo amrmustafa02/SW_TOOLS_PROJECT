@@ -1,13 +1,14 @@
 package com.redhat.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Meal {
+public class Meal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -15,7 +16,7 @@ public class Meal {
     private double price;
     @ManyToOne
     private Restaurant restaurant;
-    @ManyToMany(mappedBy = "meals")
+    @ManyToMany(mappedBy = "meals",fetch = FetchType.EAGER)
     private List<Order> orders;
 
     public List<Order> getOrders() {
