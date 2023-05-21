@@ -2,10 +2,11 @@ package com.redhat.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 @Entity
-public class Runner {
+public class Runner implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +18,7 @@ public class Runner {
 
     private	double delivery_fees;
 
-    @OneToMany(mappedBy = "runner")
+    @OneToMany(mappedBy = "runner",fetch = FetchType.EAGER)
     private List<Order> order;
 
     public List<Order> getOrder() {
