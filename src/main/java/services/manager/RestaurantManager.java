@@ -1,5 +1,6 @@
 package services.manager;
 
+import com.redhat.model.Meal;
 import com.redhat.model.Restaurant;
 import com.redhat.model.User;
 
@@ -18,9 +19,13 @@ public class RestaurantManager {
         manager.persist(restaurant);
     }
 
-    public List<Restaurant> getAllRestaurant() {
-        TypedQuery<Restaurant> q = manager.createQuery("SELECT restaurant  FROM Restaurant restaurant", Restaurant.class);
-        return q.getResultList();
+    public Restaurant getAllRestaurant(int id) {
+       return manager.find(Restaurant.class,id);
     }
+
+    public void updateRestaurant(Restaurant restaurant) {
+        manager.merge(restaurant);
+    }
+
 
 }

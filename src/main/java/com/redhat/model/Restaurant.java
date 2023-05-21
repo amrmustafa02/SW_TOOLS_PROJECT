@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -13,14 +14,14 @@ public class Restaurant implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    @OneToMany(mappedBy = "restaurant",fetch = FetchType.EAGER)
-    private List<Meal> meals;
+    @OneToMany(mappedBy = "restaurant")
+    private Set<Meal> meals;
     private int ownerId;
-    @Transient
-    private List<Order> orders;
+//    @OneToMany(mappedBy = "restaurant")
+//    private Set<Order> orders;
 
     public Restaurant() {
-        orders = new ArrayList<>();
+
     }
 
     public String getName() {
@@ -31,13 +32,13 @@ public class Restaurant implements Serializable {
         this.name = name;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
+//    public Set<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public void setOrders(Set<Order> orders) {
+//        this.orders = orders;
+//    }
 
     public int getId() {
         return id;
@@ -56,11 +57,11 @@ public class Restaurant implements Serializable {
     }
 
 
-    public List<Meal> getMeals() {
+    public Set<Meal> getMeals() {
         return meals;
     }
 
-    public void setMeals(List<Meal> meals) {
+    public void setMeals(Set<Meal> meals) {
         this.meals = meals;
     }
 }

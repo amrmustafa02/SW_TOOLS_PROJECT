@@ -13,8 +13,9 @@ public class Order implements Serializable {
     int id;
     double totalPrice;
     String orderStatus;
-    @Transient
-    Restaurant restaurant;
+//    @ManyToOne
+//    @JoinColumn(name = "orderId")
+//    Restaurant restaurant;
     @ManyToMany
     @JoinTable(
             name = "MealsXOrders",
@@ -46,13 +47,13 @@ public class Order implements Serializable {
     }
 
 
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
+//    public Restaurant getRestaurant() {
+//        return restaurant;
+//    }
+//
+//    public void setRestaurant(Restaurant restaurant) {
+//        this.restaurant = restaurant;
+//    }
 
     public void setId(int id) {
         this.id = id;
