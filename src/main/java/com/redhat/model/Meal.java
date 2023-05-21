@@ -15,15 +15,20 @@ public class Meal {
     private double price;
     @ManyToOne
     private Restaurant restaurant;
-    @ManyToMany(mappedBy = "meals")
-    private List<Order> orders;
+//    @ManyToMany(mappedBy = "meals")
+//    private List<Order> orders;
 
-    public List<Order> getOrders() {
-        return orders;
-    }
+//    public List<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public void setOrders(List<Order> orders) {
+//        this.orders = orders;
+//    }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+
+    public double getPrice() {
+        return price;
     }
 
     public void setPrice(double price) {
@@ -54,11 +59,4 @@ public class Meal {
         this.name = name;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 }

@@ -1,14 +1,17 @@
 constants_data/RoleKeys.class
 services/manager/UserManager.class
+Jsons_present/MealJson.class
 com/redhat/model/Order_.class
 com/redhat/model/Meal.class
 com/redhat/model/Restaurant_.class
 com/redhat/model/User_.class
 com/redhat/model/Meal_.class
+services/manager/MealManager.class
 services/registeration/RegistrationApi.class
 com/redhat/model/User.class
 com/redhat/model/Restaurant.class
 com/redhat/model/Runner_.class
+Jsons_present/RestaurantJson.class
 services/menues/RestaurantServicesApi.class
 com/redhat/model/Runner.class
 com/redhat/model/Order.class
