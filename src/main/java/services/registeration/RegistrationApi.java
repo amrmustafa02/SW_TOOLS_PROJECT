@@ -12,12 +12,11 @@ import java.util.List;
 import java.util.Objects;
 
 @Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
 
 @Stateless
 
 @Path("/")
-public class SignUpApi {
+public class RegistrationApi {
     @Inject
     private UserManager manager;
 
@@ -30,7 +29,7 @@ public class SignUpApi {
             return "please enter role correct,one of them(" + RoleKeys.RestaurantOwner + "," + RoleKeys.CustomerOwner + "," + RoleKeys.RunnerOwner + ")";
         }
 
-        if (checkUserIfExist(user)) {
+        if (checkUserIfExist(user.getUserName(), user.getPassword())) {
             return "User already exist";
         }
 
@@ -41,6 +40,14 @@ public class SignUpApi {
         return "Successfully sign up ,your id is " + user.getId();
     }
 
+    @GET
+    @Path("login/{userName}/{password}")
+    public String signIn(@PathParam("userName") String userName, @PathParam("password") String password) {
+        if (!checkUserIfExist(userName, password)) {
+            return "User not found,Please sign up first";
+        }
+        return "Success Login";
+    }
 
     @GET
     @Path("getAllUsers")
@@ -48,10 +55,10 @@ public class SignUpApi {
         return manager.getAllUsers();
     }
 
-    public boolean checkUserIfExist(User newUser) {
+    public boolean checkUserIfExist(String userName, String password) {
         List<User> users = getUsers();
         for (User user : users) {
-            if (user.getUserName().equals(newUser.getUserName()) && Objects.equals(user.getPassword(), newUser.getPassword())) {
+            if (user.getUserName().equals(userName) && Objects.equals(user.getPassword(), password)) {
                 return true;
             }
         }
@@ -61,6 +68,6 @@ public class SignUpApi {
     public boolean checkIfRoleIsAlready(String role) {
         return RoleKeys.RunnerOwner.equals(role) || RoleKeys.RestaurantOwner.equals(role) || RoleKeys.CustomerOwner.equals(role);
     }
-    
+
 
 }
