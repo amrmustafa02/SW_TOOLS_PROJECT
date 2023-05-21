@@ -18,14 +18,14 @@ public class Runner implements Serializable {
 
     private	double delivery_fees;
 
-    @OneToMany(mappedBy = "runner",fetch = FetchType.EAGER)
-    private List<Order> order;
+    @OneToMany(mappedBy = "runner")
+    private List<Orders> order;
 
-    public List<Order> getOrder() {
+    public List<Orders> getOrder() {
         return order;
     }
 
-    public void setOrder(List<Order> order) {
+    public void setOrder(List<Orders> order) {
         this.order = order;
     }
 

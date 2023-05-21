@@ -2,34 +2,31 @@ package com.redhat.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Order implements Serializable {
+public class Orders implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
-    double totalPrice;
-    String orderStatus;
-//    @ManyToOne
-//    @JoinColumn(name = "orderId")
-//    Restaurant restaurant;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int orderId;
+    private int totalPrice;
+    private String orderStatus;
+    @ManyToOne
+    private Restaurant orderRes;
     @ManyToMany
     @JoinTable(
             name = "MealsXOrders",
             joinColumns = @JoinColumn(name = "orderId"),
             inverseJoinColumns = @JoinColumn(name = "mealId"))
-    private List<Meal> meals;
+    private Set<Meal> meals;
     @ManyToOne
     private Runner runner;
 
-    public List<Meal> getMeals() {
+    public Set<Meal> getMeals() {
         return meals;
     }
 
-    public void setMeals(List<Meal> meals) {
+    public void setMeals(Set<Meal> meals) {
         this.meals = meals;
     }
 
@@ -42,28 +39,23 @@ public class Order implements Serializable {
         this.runner = runner;
     }
 
-    public int getId() {
-        return id;
+    public Orders() {
+
     }
 
-
-//    public Restaurant getRestaurant() {
-//        return restaurant;
-//    }
-//
-//    public void setRestaurant(Restaurant restaurant) {
-//        this.restaurant = restaurant;
-//    }
-
-    public void setId(int id) {
-        this.id = id;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public double getTotalPrice() {
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public int getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -75,4 +67,11 @@ public class Order implements Serializable {
         this.orderStatus = orderStatus;
     }
 
+    public Restaurant getOrderRes() {
+        return orderRes;
+    }
+
+    public void setOrderRes(Restaurant orderRes) {
+        this.orderRes = orderRes;
+    }
 }

@@ -13,7 +13,7 @@ public abstract class Runner_ {
 	public static volatile SingularAttribute<Runner, String> name;
 	public static volatile SingularAttribute<Runner, Integer> id;
 	public static volatile SingularAttribute<Runner, String> status;
-	public static volatile ListAttribute<Runner, Order> order;
+	public static volatile ListAttribute<Runner, Orders> order;
 
 }
 

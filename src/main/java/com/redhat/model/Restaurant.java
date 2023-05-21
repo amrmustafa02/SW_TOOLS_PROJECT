@@ -11,14 +11,14 @@ import java.util.Set;
 @Entity
 public class Restaurant implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     @OneToMany(mappedBy = "restaurant")
     private Set<Meal> meals;
     private int ownerId;
-//    @OneToMany(mappedBy = "restaurant")
-//    private Set<Order> orders;
+    @OneToMany(mappedBy = "orderRes")
+    private Set<Orders> orders;
 
     public Restaurant() {
 
@@ -32,13 +32,13 @@ public class Restaurant implements Serializable {
         this.name = name;
     }
 
-//    public Set<Order> getOrders() {
-//        return orders;
-//    }
-//
-//    public void setOrders(Set<Order> orders) {
-//        this.orders = orders;
-//    }
+    public Set<Orders> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Orders> orders) {
+        this.orders = orders;
+    }
 
     public int getId() {
         return id;
