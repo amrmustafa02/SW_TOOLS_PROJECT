@@ -2,6 +2,7 @@ package com.redhat.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -11,22 +12,22 @@ public class Order {
     int id;
     double totalPrice;
     String orderStatus;
-    @ManyToOne
+    @Transient
     Restaurant restaurant;
     @ManyToMany
     @JoinTable(
             name = "MealsXOrders",
             joinColumns = @JoinColumn(name = "orderId"),
             inverseJoinColumns = @JoinColumn(name = "mealId"))
-    private Set<Meal> meals;
+    private List<Meal> meals;
     @ManyToOne
     private Runner runner;
 
-    public Set<Meal> getMeals() {
+    public List<Meal> getMeals() {
         return meals;
     }
 
-    public void setMeals(Set<Meal> meals) {
+    public void setMeals(List<Meal> meals) {
         this.meals = meals;
     }
 

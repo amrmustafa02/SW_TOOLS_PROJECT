@@ -2,6 +2,7 @@ package com.redhat.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 @Entity
 public class Runner {
@@ -17,13 +18,13 @@ public class Runner {
     private	double delivery_fees;
 
     @OneToMany(mappedBy = "runner")
-    private Set<Order> order;
+    private List<Order> order;
 
-    public Set<Order> getOrder() {
+    public List<Order> getOrder() {
         return order;
     }
 
-    public void setOrder(Set<Order> order) {
+    public void setOrder(List<Order> order) {
         this.order = order;
     }
 
