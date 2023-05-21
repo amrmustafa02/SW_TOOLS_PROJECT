@@ -8,6 +8,15 @@ public class RestaurantJson {
     int id;
     String name;
     List<MealJson> mealJson;
+    List<OrderJson> orderJson;
+
+    public List<OrderJson> getOrderJson() {
+        return orderJson;
+    }
+
+    public void setOrderJson(List<OrderJson> orderJson) {
+        this.orderJson = orderJson;
+    }
 
     public int getId() {
         return id;

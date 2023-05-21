@@ -10,6 +10,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Restaurant_ {
 
 	public static volatile SingularAttribute<Restaurant, String> name;
+	public static volatile SetAttribute<Restaurant, Orders> orders;
 	public static volatile SingularAttribute<Restaurant, Integer> id;
 	public static volatile SingularAttribute<Restaurant, Integer> ownerId;
 	public static volatile SetAttribute<Restaurant, Meal> meals;

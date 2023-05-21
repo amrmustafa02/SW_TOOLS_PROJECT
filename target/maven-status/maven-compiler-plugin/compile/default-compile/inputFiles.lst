@@ -4,14 +4,13 @@
 /media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/com/redhat/model/Restaurant.java
 /media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/com/redhat/model/Runner.java
 /media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/com/redhat/model/Meal.java
+/media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/Jsons_present/OrderJson.java
 /media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/services/menues/RestaurantServicesApi.java
 /media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/services/registeration/RegistrationApi.java
-<<<<<<< HEAD
+/media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/services/manager/OrdersManager.java
 /media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/com/redhat/model/User.java
 /media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/services/manager/RestaurantManager.java
 /media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/services/manager/MealManager.java
-=======
->>>>>>> master
-/media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/com/redhat/model/Order.java
+/media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/com/redhat/model/Orders.java
 /media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/Service.java
 /media/amr/A8324A6D324A4094/1 New Term/Assignments/tools/tools_project/tools/src/main/java/constants_data/RoleKeys.java

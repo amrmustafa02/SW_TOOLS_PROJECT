@@ -17,15 +17,15 @@ public class Meal implements Serializable {
     @ManyToOne
     private Restaurant restaurant;
 
-    @ManyToMany(mappedBy = "meals",fetch = FetchType.EAGER)
-    private List<Order> orders;
+    @ManyToMany(mappedBy = "meals")
+    private List<Orders> orders;
 
 
-    public List<Order> getOrders() {
+    public List<Orders> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<Orders> orders) {
         this.orders = orders;
     }
 
