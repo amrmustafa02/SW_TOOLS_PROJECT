@@ -8,6 +8,8 @@ import constants_data.UserData;
 import services.manager.RunnerManager;
 import services.manager.UserManager;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -19,6 +21,7 @@ import java.util.Objects;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 
+@PermitAll
 @Stateless
 
 @Path("/")
@@ -30,7 +33,7 @@ public class RegistrationApi {
 
     @POST
     @Path("userSignUp")
-
+    @RolesAllowed({"Customer","Res"})
     public String userSignUp(User user) {
 
         if (!checkIfRoleIsAlready(user.getRole())) {
@@ -50,6 +53,7 @@ public class RegistrationApi {
 
     @POST
     @Path("runnerSignUp")
+    @RolesAllowed({"Runner"})
     public String runnerSignUp(Runner runner) {
 
         runnerManager.addNewRunner(runner);

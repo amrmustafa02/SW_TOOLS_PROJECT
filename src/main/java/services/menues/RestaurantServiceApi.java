@@ -10,6 +10,7 @@ import services.manager.OrdersManager;
 import services.manager.RestaurantManager;
 import utils.CustomerUtils;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -32,6 +33,7 @@ public class RestaurantServiceApi {
 
     @POST
     @Path("addNewRestaurant")
+    @RolesAllowed({"Res"})
     public String addNewRestaurant(Restaurant restaurant) {
 
         System.out.println("------------------------------------------------------");
@@ -137,6 +139,7 @@ public class RestaurantServiceApi {
 
     @POST
     @Path("addOrder")
+    @RolesAllowed({"Customer"})
     public OrderJson addOrder(Orders orders) {
         // order.setOrderRes(null);
         orderManager.addNewOrder(orders);
