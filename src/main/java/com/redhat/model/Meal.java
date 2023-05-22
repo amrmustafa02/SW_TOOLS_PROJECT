@@ -17,18 +17,6 @@ public class Meal implements Serializable {
     @ManyToOne
     private Restaurant restaurant;
 
-    @ManyToMany(mappedBy = "meals")
-    private List<Orders> orders;
-
-
-    public List<Orders> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Orders> orders) {
-        this.orders = orders;
-    }
-
 
     public double getPrice() {
         return price;

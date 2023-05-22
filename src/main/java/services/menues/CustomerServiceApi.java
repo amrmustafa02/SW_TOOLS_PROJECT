@@ -7,7 +7,9 @@ import com.redhat.model.Meal;
 import com.redhat.model.Orders;
 import com.redhat.model.Restaurant;
 import com.redhat.model.Runner;
+import constants_data.OrderStatus;
 import constants_data.RunnerStatus;
+import services.manager.OrdersManager;
 import services.manager.RestaurantManager;
 import services.manager.RunnerManager;
 import utils.CustomerUtils;
@@ -29,57 +31,79 @@ public class CustomerServiceApi {
     private RestaurantManager manager;
     @Inject
     RunnerManager runnerManager;
+    @Inject
+    OrdersManager ordersManager;
+
 
     @POST
     @Path("addNewOrder/{idRestaurant}")
-    public OrdersDetailsJson addOrder(List<SendOrderJson> sendOrderJsons, @PathParam("idRestaurant") int id) {
+    public String addOrder(List<SendOrderJson> sendOrderJsons, @PathParam("idRestaurant") int id) {
         Restaurant restaurant = manager.getRestaurantDetails(id);
         if (restaurant == null) {
             return null;
         }
 
-        OrdersDetailsJson ordersDetailsJson = new OrdersDetailsJson();
+        Orders order = new Orders();
 
-        //set date
-        ordersDetailsJson.setDate(CustomerUtils.getDate());
 
         // set restaurant name
-        ordersDetailsJson.setRestaurantName(restaurant.getName());
+        order.setOrderRes(restaurant);
 
-        // set meals
-        ordersDetailsJson.setMeals(CustomerUtils.getMeals(restaurant.getMeals(), sendOrderJsons));
+        //set meals
+        order.setMeals(CustomerUtils.getMeals(restaurant.getMeals(), sendOrderJsons));
+
 
         // get random runner
         Runner runner = CustomerUtils.getRandomRunner(runnerManager.getRunners());
-
-         //set Delivery Fees
-        ordersDetailsJson.setDeliveryFees(runner.getDelivery_fees());
-
-        //set runner name
-        ordersDetailsJson.setRunnerName(runner.getName());
+        runner.setStatus(RunnerStatus.busy);
 
         // get total price
-        int totalPrice = CustomerUtils.getTotalPrice(restaurant.getMeals(), sendOrderJsons);
+        int totalPrice = CustomerUtils.getTotalPrice(order.getMeals());
+
         // increase fees on total price
         totalPrice += runner.getDelivery_fees();
 
-        //set total amount
-        ordersDetailsJson.setTotalReceipt(totalPrice);
+        //set total price
+        order.setTotalPrice(totalPrice);
+        // set date
+        order.setDate(CustomerUtils.getDate());
+        //set runner
+        order.setRunner(runner);
 
-        runner.setStatus(RunnerStatus.busy);
+        order.setOrderStatus(OrderStatus.preparing);
 
+        ordersManager.addNewOrder(order);
 
-
-        // add order in database
-
-        return ordersDetailsJson;
+        return "add successfully+ your order id is " + order.getOrderId();
     }
 
     @GET
-    @Path("getOrder")
-    public SendOrderJson getOrder() {
-        SendOrderJson orderJson = new SendOrderJson();
-        return orderJson;
+    @Path("getOrders")
+    public List<OrdersDetailsJson> getAllOrders() {
+        List<Orders> orders = ordersManager.getAllOrders();
+        List<OrdersDetailsJson> ordersDetailsJsons = new ArrayList<>();
+        for (Orders orders1 : orders) {
+            OrdersDetailsJson ordersDetailsJson = new OrdersDetailsJson();
+            // set date
+            ordersDetailsJson.setDate(orders1.getDate());
+            // set meals
+            ordersDetailsJson.setMeals(CustomerUtils.convertOrderToJson(orders1.getMeals()));
+            // set fees
+            ordersDetailsJson.setDeliveryFees(orders1.getRunner().getDelivery_fees());
+            // set runner name
+            ordersDetailsJson.setRunnerName(orders1.getRunner().getName());
+            //set total price
+            ordersDetailsJson.setTotalReceipt(orders1.getTotalPrice());
+            //set restaurant
+            ordersDetailsJson.setRestaurantName(orders1.getOrderRes().getName());
+            //set status
+            ordersDetailsJson.setStatus(orders1.getOrderStatus());
+            
+            ordersDetailsJsons.add(ordersDetailsJson);
+
+        }
+        return ordersDetailsJsons;
+
     }
 
 

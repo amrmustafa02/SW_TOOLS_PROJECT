@@ -5,12 +5,11 @@ import java.util.List;
 public class OrdersDetailsJson {
     private String date;
     private String restaurantName;
-    private List<MealJson> meals;
-
+    private  String status;
     private String runnerName;
     private double deliveryFees;
     private int totalReceipt;
-
+    private List<MealJson> meals;
     public String getDate() {
         return date;
     }
@@ -57,5 +56,13 @@ public class OrdersDetailsJson {
 
     public void setTotalReceipt(int totalReceipt) {
         this.totalReceipt = totalReceipt;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

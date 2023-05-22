@@ -4,7 +4,6 @@ import Jsons_present.MealJson;
 import Jsons_present.SendOrderJson;
 import com.redhat.model.Meal;
 import com.redhat.model.Runner;
-import org.hibernate.criterion.Order;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -18,15 +17,10 @@ public class CustomerUtils {
         return formatter.format(date);
     }
 
-    public static int getTotalPrice(Set<Meal> meals, List<SendOrderJson> sendOrderJsons) {
+    public static int getTotalPrice(Set<Meal> meals ){
         int sum = 0;
-
-        for (SendOrderJson orderJson : sendOrderJsons) {
-
-            for (Meal meal : meals) {
-                if (meal.getId() == orderJson.getMealId())
-                    sum += (meal.getPrice() * orderJson.getCount());
-            }
+        for (Meal meal : meals) {
+            sum += meal.getPrice();
         }
         return sum;
     }
@@ -37,20 +31,39 @@ public class CustomerUtils {
         return runners.get(randomNum);
     }
 
-    public static List<MealJson> getMeals(Set<Meal> meals, List<SendOrderJson> sendOrderJsons) {
+    public static Set<MealJson> getMealsJson(Set<Meal> meals, List<SendOrderJson> sendOrderJsons) {
 
-        List<MealJson> mealJsons = new ArrayList<>();
+        Set<MealJson> mealJsons = new HashSet<>();
         for (SendOrderJson orderJson : sendOrderJsons) {
             for (Meal meal : meals) {
                 if (meal.getId() == orderJson.getMealId()) {
                     mealJsons.add(new MealJson(meal.getId(), meal.getName(), meal.getPrice() * orderJson.getCount()));
                 }
             }
-
         }
 
         return mealJsons;
 
     }
 
+    public static Set<Meal> getMeals(Set<Meal> meals, List<SendOrderJson> sendOrderJsons) {
+
+        Set<Meal> mealJsons = new HashSet<>();
+        for (SendOrderJson orderJson : sendOrderJsons) {
+            for (Meal meal : meals) {
+                if (meal.getId() == orderJson.getMealId()) {
+                    mealJsons.add(meal);
+                }
+            }
+        }
+        return mealJsons;
+    }
+
+    public static List<MealJson> convertOrderToJson(Set<Meal> meals) {
+        List<MealJson> mealJsons = new ArrayList<>();
+        for (Meal meal : meals) {
+            mealJsons.add(new MealJson(meal.getId(), meal.getName(), meal.getPrice()));
+        }
+        return mealJsons;
+    }
 }
