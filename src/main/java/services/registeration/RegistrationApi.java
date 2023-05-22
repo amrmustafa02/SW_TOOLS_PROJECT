@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 
 @Stateless
 
@@ -27,10 +28,10 @@ public class RegistrationApi {
     private RunnerManager runnerManager;
 
     @POST
-    @Path("signUp")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public String signUp(User user) {
-        // email
+    @Path("userSignUp")
+
+    public String userSignUp(User user) {
+
         if (!checkIfRoleIsAlready(user.getRole())) {
             return "please enter role correct,one of them(" + RoleKeys.RestaurantOwner + "," + RoleKeys.CustomerOwner + "," + RoleKeys.RunnerOwner + ")";
         }
@@ -39,18 +40,16 @@ public class RegistrationApi {
             return "User already exist";
         }
 
-
         manager.addNewUser(user);
 
-        Runner runner = new Runner();
-        if (RoleKeys.RunnerOwner.equals(user.getRole())) {
+        return "Successfully sign up as user";
+    }
 
-            runner.setName(user.getName());
-            runner.setStatus(RunnerStatus.available);
-            runnerManager.addNewRunner(runner);
-        }
-
-        return "Successfully sign up";
+    @POST
+    @Path("runnerSignUp")
+    public String signUp(Runner runner) {
+        runnerManager.addNewRunner(runner);
+        return "Successfully sign up as runner";
     }
 
     @GET

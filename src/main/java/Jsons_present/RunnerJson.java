@@ -13,13 +13,13 @@ public class RunnerJson {
 
     private double delivery_fees;
 
-    List<OrderJson> orderJsons;
+//    List<OrderJson> orderJsons;
 
     public RunnerJson(String name, String status, double delivery_fees, List<OrderJson> orderJsons) {
         this.name = name;
         this.status = status;
         this.delivery_fees = delivery_fees;
-        this.orderJsons = orderJsons;
+//        this.orderJsons = orderJsons;
     }
 
     public String getName() {
@@ -46,11 +46,11 @@ public class RunnerJson {
         this.delivery_fees = delivery_fees;
     }
 
-    public List<OrderJson> getOrderJsons() {
-        return orderJsons;
-    }
-
-    public void setOrderJsons(List<OrderJson> orderJsons) {
-        this.orderJsons = orderJsons;
-    }
+//    public List<OrderJson> getOrderJsons() {
+//        return orderJsons;
+//    }
+//
+//    public void setOrderJsons(List<OrderJson> orderJsons) {
+//        this.orderJsons = orderJsons;
+//    }
 }

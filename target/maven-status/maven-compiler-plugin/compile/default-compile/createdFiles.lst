@@ -1,6 +1,7 @@
 constants_data/RoleKeys.class
 services/manager/UserManager.class
 Jsons_present/SendOrderJson.class
+Jsons_present/OrdersDetailsJson.class
 com/redhat/model/Meal.class
 constants_data/OrderStatus.class
 Jsons_present/RestaurantReport.class

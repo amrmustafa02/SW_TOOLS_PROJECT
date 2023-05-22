@@ -5,18 +5,20 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
+
 @Entity
 public class Runner implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private	int id;
-
+    private int id;
     private String name;
+    private String userName;
+    private String password;
 
     private String status;
 
-    private	double delivery_fees;
+    private double delivery_fees;
 
     @OneToMany(mappedBy = "runner")
     private List<Orders> order;
@@ -61,5 +63,19 @@ public class Runner implements Serializable {
         this.delivery_fees = delivery_fees;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }
