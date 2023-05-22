@@ -2,10 +2,13 @@ package utils;
 
 import Jsons_present.MealJson;
 import Jsons_present.OrdersDetailsJson;
+import Jsons_present.RestaurantJson;
 import Jsons_present.SendOrderJson;
 import com.redhat.model.Meal;
 import com.redhat.model.Orders;
+import com.redhat.model.Restaurant;
 import com.redhat.model.Runner;
+import services.manager.RestaurantManager;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -19,7 +22,7 @@ public class CustomerUtils {
         return formatter.format(date);
     }
 
-    public static int getTotalPrice(Set<Meal> meals ){
+    public static int getTotalPrice(Set<Meal> meals) {
         int sum = 0;
         for (Meal meal : meals) {
             sum += meal.getPrice();
@@ -68,6 +71,7 @@ public class CustomerUtils {
         }
         return mealJsons;
     }
+
     public static OrdersDetailsJson convertOrderToJson(Orders orders1) {
         OrdersDetailsJson ordersDetailsJson = new OrdersDetailsJson();
         // set date
@@ -86,6 +90,15 @@ public class CustomerUtils {
         ordersDetailsJson.setStatus(orders1.getOrderStatus());
 
         return ordersDetailsJson;
+    }
+
+    public static RestaurantJson convertRestaurantToJason(Restaurant restaurant) {
+        RestaurantJson restaurantJson = new RestaurantJson();
+        restaurantJson.setName(restaurant.getName());
+        restaurantJson.setId(restaurant.getId());
+        restaurantJson.setMealJson(convertMealsToJson(restaurant.getMeals()));
+        restaurantJson.setOrderJson(null);
+        return restaurantJson;
     }
 
 }

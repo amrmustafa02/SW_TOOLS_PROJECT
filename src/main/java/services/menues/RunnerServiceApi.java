@@ -8,7 +8,9 @@ import com.redhat.model.Orders;
 import com.redhat.model.Runner;
 
 import constants_data.OrderStatus;
+import constants_data.RoleKeys;
 import constants_data.RunnerStatus;
+import constants_data.UserData;
 import services.manager.RunnerManager;
 import utils.CustomerUtils;
 
@@ -31,17 +33,24 @@ public class RunnerServiceApi {
     @GET
     @Path("getRunners")
     public List<RunnerJson> getAllRunners() {
+
         List<Runner> runners = runnerManager.getRunners();
         List<RunnerJson> result = new ArrayList<>();
+
         for (Runner runner : runners) {
             result.add(new RunnerJson(runner.getName(), runner.getStatus(), runner.getDelivery_fees(), null));
         }
+
         return result;
     }
 
     @POST
     @Path("markOrder/{runnerId}/{orderId}")
     public String markOrder(@PathParam("orderId") int orderId, @PathParam("runnerId") int runnerId) {
+        if (!UserData.userRole.equals(RoleKeys.RunnerOwner)) {
+            return "please sign as runner";
+        }
+
         //get runner
         Runner runner = runnerManager.getRunner(runnerId);
 
@@ -67,7 +76,6 @@ public class RunnerServiceApi {
         Runner runner = runnerManager.getRunner(id);
 
         List<Orders> orders = runner.getOrders();
-        List<OrdersDetailsJson> ordersDetailsJsons = new ArrayList<>();
 
         for (Orders orders1 : orders) {
             if (orders1.getOrderStatus().equals(OrderStatus.delivered)) {

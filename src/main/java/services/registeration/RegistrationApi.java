@@ -4,6 +4,7 @@ import com.redhat.model.Runner;
 import com.redhat.model.User;
 import constants_data.RoleKeys;
 import constants_data.RunnerStatus;
+import constants_data.UserData;
 import services.manager.RunnerManager;
 import services.manager.UserManager;
 
@@ -42,19 +43,41 @@ public class RegistrationApi {
 
         manager.addNewUser(user);
 
+        UserData.userRole = user.getRole();
+
         return "Successfully sign up as user";
     }
 
     @POST
     @Path("runnerSignUp")
-    public String signUp(Runner runner) {
+    public String runnerSignUp(Runner runner) {
+
         runnerManager.addNewRunner(runner);
+
+        UserData.userRole = RoleKeys.RunnerOwner;
+
         return "Successfully sign up as runner ,your id is " + runner.getId();
     }
 
     @GET
     @Path("login/{userName}/{password}")
     public String signIn(@PathParam("userName") String userName, @PathParam("password") String password) {
+        if (!checkUserIfExist(userName, password)) {
+            return "User not found,Please sign up first";
+        }
+        List<User> users = manager.getAllUsers();
+        for (User user1 : users) {
+            if (user1.getUserName().equals(userName) && user1.getPassword().equals(password)) {
+                UserData.userRole = user1.getRole();
+                break;
+            }
+        }
+        return "Success Login";
+    }
+
+    @GET
+    @Path("runnerLogin/{userName}/{password}")
+    public String runnerSignIn(@PathParam("userName") String userName, @PathParam("password") String password) {
         if (!checkUserIfExist(userName, password)) {
             return "User not found,Please sign up first";
         }

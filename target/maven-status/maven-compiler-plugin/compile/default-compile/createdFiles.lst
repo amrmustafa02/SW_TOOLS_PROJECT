@@ -10,6 +10,7 @@ services/menues/RestaurantServiceApi.class
 utils/RunnerUtils.class
 services/manager/MealManager.class
 com/redhat/model/User.class
+constants_data/UserData.class
 Jsons_present/RunnerJson.class
 Jsons_present/RestaurantJson.class
 constants_data/RunnerStatus.class

@@ -1,6 +1,8 @@
 package services.menues;
 
+import Jsons_present.OrderJson;
 import Jsons_present.OrdersDetailsJson;
+import Jsons_present.RestaurantJson;
 import Jsons_present.SendOrderJson;
 import com.redhat.model.Orders;
 import com.redhat.model.Restaurant;
@@ -72,10 +74,11 @@ public class CustomerServiceApi {
         ordersManager.addNewOrder(order);
 
         // add order to runner
+        runner.getOrders().add(order);
 
 
         // add order to in restaurant
-         restaurant.getOrders().add(order);
+        restaurant.getOrders().add(order);
 
         return "add successfully+ your order id is " + order.getOrderId();
     }
@@ -92,5 +95,18 @@ public class CustomerServiceApi {
 
     }
 
+
+    @GET
+    @Path("getAllRestaurants")
+    public List<RestaurantJson> getAllRestaurants() {
+        List<Restaurant> restaurants = manager.getAllRestaurants();
+        List<RestaurantJson> restaurantJsons = new ArrayList<>();
+        // handle json
+        for (Restaurant restaurant : restaurants) {
+            restaurantJsons.add(CustomerUtils.convertRestaurantToJason(restaurant));
+        }
+
+        return restaurantJsons;
+    }
 
 }

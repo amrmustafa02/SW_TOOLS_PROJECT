@@ -1,9 +1,6 @@
 package services.menues;
 
-import Jsons_present.MealJson;
-import Jsons_present.OrderJson;
-import Jsons_present.RestaurantJson;
-import Jsons_present.RestaurantReport;
+import Jsons_present.*;
 import com.redhat.model.Meal;
 import com.redhat.model.Orders;
 import com.redhat.model.Restaurant;
@@ -11,6 +8,7 @@ import constants_data.OrderStatus;
 import services.manager.MealManager;
 import services.manager.OrdersManager;
 import services.manager.RestaurantManager;
+import utils.CustomerUtils;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -77,10 +75,10 @@ public class RestaurantServiceApi {
             mealJsons.add(new MealJson(meal.getId(), meal.getName(), meal.getPrice()));
         }
 
-        List<OrderJson> orderJsons = new ArrayList<>();
-        for (Orders order : restaurant.getOrders()) {
+        List<OrdersDetailsJson> orderJsons = new ArrayList<>();
 
-            orderJsons.add(new OrderJson(order.getTotalPrice(), order.getOrderStatus()));
+        for (Orders order : restaurant.getOrders()) {
+            orderJsons.add(CustomerUtils.convertOrderToJson(order));
         }
 
         RestaurantJson restaurantJson = new RestaurantJson();
@@ -164,14 +162,6 @@ public class RestaurantServiceApi {
         return new RestaurantReport(totalEarn, completedOrders, canceledOrders);
     }
 
-    //    private Set<Meal> deleteMeal(int id, Set<Meal> meals) {
-//        Set<Meal> newMeals = new HashSet<>();
-//        for (Meal resMeal : meals) {
-//            if (resMeal.getId() != id) {
-//
-//            }
-//        }
-//    }
 
 
 

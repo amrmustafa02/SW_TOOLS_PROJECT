@@ -8,13 +8,13 @@ public class RestaurantJson {
     int id;
     String name;
     List<MealJson> mealJson;
-    List<OrderJson> orderJson;
+    List<OrdersDetailsJson> orderJson;
 
-    public List<OrderJson> getOrderJson() {
+    public List<OrdersDetailsJson> getOrderJson() {
         return orderJson;
     }
 
-    public void setOrderJson(List<OrderJson> orderJson) {
+    public void setOrderJson(List<OrdersDetailsJson> orderJson) {
         this.orderJson = orderJson;
     }
 
