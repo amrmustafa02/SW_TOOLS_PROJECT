@@ -39,16 +39,18 @@ public class RegistrationApi {
             return "User already exist";
         }
 
-        System.out.println("test1");
+
+        manager.addNewUser(user);
+
+        Runner runner = new Runner();
         if (RoleKeys.RunnerOwner.equals(user.getRole())) {
-            Runner runner = new Runner();
+
             runner.setName(user.getName());
             runner.setStatus(RunnerStatus.available);
             runnerManager.addNewRunner(runner);
-        } else
-            manager.addNewUser(user);
+        }
 
-        return "Successfully sign up ,your id is " + user.getId();
+        return "Successfully sign up";
     }
 
     @GET

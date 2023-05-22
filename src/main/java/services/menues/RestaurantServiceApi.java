@@ -164,7 +164,7 @@ public class RestaurantServiceApi {
         return new RestaurantReport(totalEarn, completedOrders, canceledOrders);
     }
 
-//    private Set<Meal> deleteMeal(int id, Set<Meal> meals) {
+    //    private Set<Meal> deleteMeal(int id, Set<Meal> meals) {
 //        Set<Meal> newMeals = new HashSet<>();
 //        for (Meal resMeal : meals) {
 //            if (resMeal.getId() != id) {
@@ -172,4 +172,7 @@ public class RestaurantServiceApi {
 //            }
 //        }
 //    }
+
+
+
 }
