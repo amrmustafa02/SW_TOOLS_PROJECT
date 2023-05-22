@@ -49,7 +49,7 @@ public class RegistrationApi {
     @Path("runnerSignUp")
     public String signUp(Runner runner) {
         runnerManager.addNewRunner(runner);
-        return "Successfully sign up as runner";
+        return "Successfully sign up as runner ,your id is " + runner.getId();
     }
 
     @GET

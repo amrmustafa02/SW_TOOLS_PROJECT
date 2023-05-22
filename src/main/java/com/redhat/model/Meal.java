@@ -2,10 +2,8 @@ package com.redhat.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.security.PrivateKey;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import com.redhat.model.*;
+
 
 @Entity
 public class Meal implements Serializable {

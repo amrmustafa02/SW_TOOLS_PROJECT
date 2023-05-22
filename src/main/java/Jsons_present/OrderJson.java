@@ -2,6 +2,7 @@ package Jsons_present;
 
 public class OrderJson {
 
+
     double price;
     String orderStatus;
 
@@ -25,4 +26,5 @@ public class OrderJson {
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
+
 }

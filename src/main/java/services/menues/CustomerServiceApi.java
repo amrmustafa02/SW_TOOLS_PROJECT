@@ -1,9 +1,7 @@
 package services.menues;
 
-import Jsons_present.MealJson;
 import Jsons_present.OrdersDetailsJson;
 import Jsons_present.SendOrderJson;
-import com.redhat.model.Meal;
 import com.redhat.model.Orders;
 import com.redhat.model.Restaurant;
 import com.redhat.model.Runner;
@@ -20,7 +18,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Stateless
 @Consumes(MediaType.APPLICATION_JSON)
@@ -74,6 +71,12 @@ public class CustomerServiceApi {
 
         ordersManager.addNewOrder(order);
 
+        // add order to runner
+
+
+        // add order to in restaurant
+         restaurant.getOrders().add(order);
+
         return "add successfully+ your order id is " + order.getOrderId();
     }
 
@@ -83,24 +86,7 @@ public class CustomerServiceApi {
         List<Orders> orders = ordersManager.getAllOrders();
         List<OrdersDetailsJson> ordersDetailsJsons = new ArrayList<>();
         for (Orders orders1 : orders) {
-            OrdersDetailsJson ordersDetailsJson = new OrdersDetailsJson();
-            // set date
-            ordersDetailsJson.setDate(orders1.getDate());
-            // set meals
-            ordersDetailsJson.setMeals(CustomerUtils.convertOrderToJson(orders1.getMeals()));
-            // set fees
-            ordersDetailsJson.setDeliveryFees(orders1.getRunner().getDelivery_fees());
-            // set runner name
-            ordersDetailsJson.setRunnerName(orders1.getRunner().getName());
-            //set total price
-            ordersDetailsJson.setTotalReceipt(orders1.getTotalPrice());
-            //set restaurant
-            ordersDetailsJson.setRestaurantName(orders1.getOrderRes().getName());
-            //set status
-            ordersDetailsJson.setStatus(orders1.getOrderStatus());
-            
-            ordersDetailsJsons.add(ordersDetailsJson);
-
+            ordersDetailsJsons.add(CustomerUtils.convertOrderToJson(orders1));
         }
         return ordersDetailsJsons;
 

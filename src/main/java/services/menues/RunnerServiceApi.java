@@ -1,16 +1,20 @@
 package services.menues;
 
 
+import Jsons_present.OrderJson;
+import Jsons_present.OrdersDetailsJson;
 import Jsons_present.RunnerJson;
+import com.redhat.model.Orders;
 import com.redhat.model.Runner;
+
+import constants_data.OrderStatus;
+import constants_data.RunnerStatus;
 import services.manager.RunnerManager;
+import utils.CustomerUtils;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +37,46 @@ public class RunnerServiceApi {
             result.add(new RunnerJson(runner.getName(), runner.getStatus(), runner.getDelivery_fees(), null));
         }
         return result;
+    }
+
+    @POST
+    @Path("markOrder/{runnerId}/{orderId}")
+    public String markOrder(@PathParam("orderId") int orderId, @PathParam("runnerId") int runnerId) {
+        //get runner
+        Runner runner = runnerManager.getRunner(runnerId);
+
+        // search the order in runner
+        List<Orders> orders = runner.getOrders();
+
+        // loop on orders and check the order
+        for (Orders orders1 : orders) {
+            if (orders1.getOrderId() == orderId) {
+                orders1.setOrderStatus(OrderStatus.delivered);
+                runner.setStatus(RunnerStatus.available);
+                return "successfully delivered";
+            }
+        }
+
+        return "order not found in this runner";
+    }
+
+    @GET
+    @Path("getOrder/{id}")
+    public String getAllOrders(@PathParam("id") int id) {
+        int totalNumberOfCompletedOrders = 0;
+        Runner runner = runnerManager.getRunner(id);
+
+        List<Orders> orders = runner.getOrders();
+        List<OrdersDetailsJson> ordersDetailsJsons = new ArrayList<>();
+
+        for (Orders orders1 : orders) {
+            if (orders1.getOrderStatus().equals(OrderStatus.delivered)) {
+                totalNumberOfCompletedOrders++;
+            }
+        }
+
+        return "total number of completed orders is " + totalNumberOfCompletedOrders;
+
+
     }
 }

@@ -1,8 +1,10 @@
 package utils;
 
 import Jsons_present.MealJson;
+import Jsons_present.OrdersDetailsJson;
 import Jsons_present.SendOrderJson;
 import com.redhat.model.Meal;
+import com.redhat.model.Orders;
 import com.redhat.model.Runner;
 
 import java.text.SimpleDateFormat;
@@ -59,11 +61,31 @@ public class CustomerUtils {
         return mealJsons;
     }
 
-    public static List<MealJson> convertOrderToJson(Set<Meal> meals) {
+    public static List<MealJson> convertMealsToJson(Set<Meal> meals) {
         List<MealJson> mealJsons = new ArrayList<>();
         for (Meal meal : meals) {
             mealJsons.add(new MealJson(meal.getId(), meal.getName(), meal.getPrice()));
         }
         return mealJsons;
     }
+    public static OrdersDetailsJson convertOrderToJson(Orders orders1) {
+        OrdersDetailsJson ordersDetailsJson = new OrdersDetailsJson();
+        // set date
+        ordersDetailsJson.setDate(orders1.getDate());
+        // set meals
+        ordersDetailsJson.setMeals(CustomerUtils.convertMealsToJson(orders1.getMeals()));
+        // set fees
+        ordersDetailsJson.setDeliveryFees(orders1.getRunner().getDelivery_fees());
+        // set runner name
+        ordersDetailsJson.setRunnerName(orders1.getRunner().getName());
+        //set total price
+        ordersDetailsJson.setTotalReceipt(orders1.getTotalPrice());
+        //set restaurant
+        ordersDetailsJson.setRestaurantName(orders1.getOrderRes().getName());
+        //set status
+        ordersDetailsJson.setStatus(orders1.getOrderStatus());
+
+        return ordersDetailsJson;
+    }
+
 }
