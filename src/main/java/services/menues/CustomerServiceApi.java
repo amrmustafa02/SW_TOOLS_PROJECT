@@ -1,17 +1,16 @@
 package services.menues;
 
-import Jsons_present.OrderJson;
 import Jsons_present.OrdersDetailsJson;
 import Jsons_present.RestaurantJson;
 import Jsons_present.SendOrderJson;
-import com.redhat.model.Orders;
-import com.redhat.model.Restaurant;
-import com.redhat.model.Runner;
+import com.redhat.model.*;
 import constants_data.OrderStatus;
 import constants_data.RunnerStatus;
+import constants_data.UserData;
 import services.manager.OrdersManager;
 import services.manager.RestaurantManager;
 import services.manager.RunnerManager;
+import services.manager.UserManager;
 import utils.CustomerUtils;
 
 import javax.annotation.security.RolesAllowed;
@@ -21,6 +20,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Stateless
 @Consumes(MediaType.APPLICATION_JSON)
@@ -32,6 +32,8 @@ public class CustomerServiceApi {
     @Inject
     private RestaurantManager manager;
     @Inject
+    private UserManager userManager;
+    @Inject
     RunnerManager runnerManager;
     @Inject
     OrdersManager ordersManager;
@@ -40,20 +42,22 @@ public class CustomerServiceApi {
     @POST
     @Path("addNewOrder/{idRestaurant}")
     public String addOrder(List<SendOrderJson> sendOrderJsons, @PathParam("idRestaurant") int id) {
+
         Restaurant restaurant = manager.getRestaurantDetails(id);
+
         if (restaurant == null) {
             return null;
         }
 
+
         Orders order = new Orders();
 
-
+        // set customer id
+        order.setCustomerId(UserData.id);
         // set restaurant name
         order.setOrderRes(restaurant);
-
         //set meals
         order.setMeals(CustomerUtils.getMeals(restaurant.getMeals(), sendOrderJsons));
-
 
         // get random runner
         Runner runner = CustomerUtils.getRandomRunner(runnerManager.getRunners());
@@ -75,10 +79,8 @@ public class CustomerServiceApi {
         order.setOrderStatus(OrderStatus.preparing);
 
         ordersManager.addNewOrder(order);
-
         // add order to runner
         runner.getOrders().add(order);
-
 
         // add order to in restaurant
         restaurant.getOrders().add(order);
@@ -87,12 +89,14 @@ public class CustomerServiceApi {
     }
 
     @GET
-    @Path("getOrders")
-    public List<OrdersDetailsJson> getAllOrders() {
+    @Path("getOrders/{id}")
+    public List<OrdersDetailsJson> getAllOrders(@PathParam("id") int id) {
+
         List<Orders> orders = ordersManager.getAllOrders();
         List<OrdersDetailsJson> ordersDetailsJsons = new ArrayList<>();
         for (Orders orders1 : orders) {
-            ordersDetailsJsons.add(CustomerUtils.convertOrderToJson(orders1));
+            if (orders1.getCustomerId() == UserData.id)
+                ordersDetailsJsons.add(CustomerUtils.convertOrderToJson(orders1));
         }
         return ordersDetailsJsons;
 
@@ -111,5 +115,23 @@ public class CustomerServiceApi {
 
         return restaurantJsons;
     }
+
+    @Path("editOrder/{orderId}/{mealId}")
+    public String addMealToOrder(Meal meal, @PathParam("orderId") int orderId, @PathParam("mealId") int mealId) {
+        List<Orders> orders = ordersManager.getAllOrders();
+
+        for (Orders orders1 : orders) {
+            if (orders1.getOrderId() == orderId) {
+                if (orders1.getCustomerId() != UserData.id) {
+                    return "order not fount in this user";
+                }
+                orders1.getMeals().add(meal);
+                return "add successfully";
+            }
+        }
+        return "order not found";
+
+    }
+
 
 }

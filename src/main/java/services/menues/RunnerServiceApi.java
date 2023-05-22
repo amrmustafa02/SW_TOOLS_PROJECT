@@ -34,7 +34,6 @@ public class RunnerServiceApi {
     @GET
     @Path("getRunners")
     @RolesAllowed({"admin"})
-
     public List<RunnerJson> getAllRunners() {
 
         List<Runner> runners = runnerManager.getRunners();
@@ -51,9 +50,10 @@ public class RunnerServiceApi {
     @Path("markOrder/{runnerId}/{orderId}")
     @RolesAllowed({"Runner"})
     public String markOrder(@PathParam("orderId") int orderId, @PathParam("runnerId") int runnerId) {
-        if (!UserData.userRole.equals(RoleKeys.RunnerOwner)) {
+
+        if (!UserData.userRole.equals(RoleKeys.RunnerOwner))
             return "please sign as runner";
-        }
+
 
         //get runner
         Runner runner = runnerManager.getRunner(runnerId);
@@ -63,14 +63,14 @@ public class RunnerServiceApi {
 
         // loop on orders and check the order
         for (Orders orders1 : orders) {
-            if (orders1.getOrderId() == orderId) {
+            if (orders1.getOrderId() == orderId && !orders1.getOrderStatus().equals(OrderStatus.delivered)) {
                 orders1.setOrderStatus(OrderStatus.delivered);
                 runner.setStatus(RunnerStatus.available);
                 return "successfully delivered";
             }
         }
 
-        return "order not found in this runner";
+        return "Order not found in this runner";
     }
 
     @GET

@@ -3,7 +3,7 @@ package services.registeration;
 import com.redhat.model.Runner;
 import com.redhat.model.User;
 import constants_data.RoleKeys;
-import constants_data.RunnerStatus;
+
 import constants_data.UserData;
 import services.manager.RunnerManager;
 import services.manager.UserManager;
@@ -14,7 +14,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.lang.ref.PhantomReference;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -33,7 +33,7 @@ public class RegistrationApi {
 
     @POST
     @Path("userSignUp")
-    @RolesAllowed({"Customer","Res"})
+    @RolesAllowed({"Customer", "Res"})
     public String userSignUp(User user) {
 
         if (!checkIfRoleIsAlready(user.getRole())) {
@@ -47,8 +47,9 @@ public class RegistrationApi {
         manager.addNewUser(user);
 
         UserData.userRole = user.getRole();
+        UserData.id = user.getId();
 
-        return "Successfully sign up as user ,your id is "+user.getId();
+        return "Successfully sign up as user ,your id is " + user.getId();
     }
 
     @POST
@@ -62,13 +63,15 @@ public class RegistrationApi {
         runnerManager.addNewRunner(runner);
 
         UserData.userRole = RoleKeys.RunnerOwner;
+        UserData.id = runner.getId();
+
 
         return "Successfully sign up as runner ,your id is " + runner.getId();
     }
 
     @GET
     @Path("login/{userName}/{password}")
-    @RolesAllowed({"Customer","Res"})
+    @RolesAllowed({"Customer", "Res"})
 
     public String signIn(@PathParam("userName") String userName, @PathParam("password") String password) {
         if (!checkUserIfExist(userName, password)) {
@@ -78,6 +81,8 @@ public class RegistrationApi {
         for (User user1 : users) {
             if (user1.getUserName().equals(userName) && user1.getPassword().equals(password)) {
                 UserData.userRole = user1.getRole();
+                UserData.id = user1.getId();
+
                 break;
             }
         }
@@ -91,6 +96,15 @@ public class RegistrationApi {
         if (!checkUserIfExist(userName, password)) {
             return "Runner not found,Please sign up first";
         }
+        for (Runner user1 : runnerManager.getRunners()) {
+            if (user1.getUserName().equals(userName) && user1.getPassword().equals(password)) {
+                UserData.userRole = RoleKeys.RunnerOwner;
+                UserData.id = user1.getId();
+
+                break;
+            }
+        }
+
         return "Success Login";
     }
 
@@ -110,6 +124,7 @@ public class RegistrationApi {
         }
         return false;
     }
+
     public boolean checkRunnerIfExist(String userName, String password) {
         List<Runner> users = runnerManager.getRunners();
         for (Runner user : users) {
@@ -119,7 +134,6 @@ public class RegistrationApi {
         }
         return false;
     }
-
 
     public boolean checkIfRoleIsAlready(String role) {
         return RoleKeys.RunnerOwner.equals(role) || RoleKeys.RestaurantOwner.equals(role) || RoleKeys.CustomerOwner.equals(role);

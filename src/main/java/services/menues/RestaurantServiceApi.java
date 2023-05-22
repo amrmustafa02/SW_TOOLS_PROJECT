@@ -5,6 +5,8 @@ import com.redhat.model.Meal;
 import com.redhat.model.Orders;
 import com.redhat.model.Restaurant;
 import constants_data.OrderStatus;
+import constants_data.RoleKeys;
+import constants_data.UserData;
 import services.manager.MealManager;
 import services.manager.OrdersManager;
 import services.manager.RestaurantManager;
@@ -37,27 +39,22 @@ public class RestaurantServiceApi {
     @Path("addNewRestaurant")
     public String addNewRestaurant(Restaurant restaurant) {
 
-        System.out.println("------------------------------------------------------");
+        if (!UserData.userRole.equals(RoleKeys.RestaurantOwner))
+            return "please sign as restaurant owner";
 
+        restaurant.setOwnerId(UserData.id);
         manager.addNewRestaurant(restaurant);
-        // set restaurant and
+
+        // set restaurant
         for (Meal meal : restaurant.getMeals()) {
             meal.setRestaurant(restaurant);
             managerMeal.addNewMeal(meal);
         }
-        System.out.println("------------------------------------------------------");
 
         for (Orders order : restaurant.getOrders()) {
             order.setOrderRes(restaurant);
             manager.addNewOrder(order);
         }
-//        Orders order = new Orders();
-//        order.setOrderRes(restaurant);
-//        order.setTotalPrice(12);
-//        order.setOrderStatus("busy");
-
-//        manager.addNewOrder(order);
-//        restaurant.getOrders().add(order);
 
         try {
             Restaurant restaurant1 = manager.getRestaurantDetails(restaurant.getId());
@@ -71,6 +68,10 @@ public class RestaurantServiceApi {
     @GET
     @Path("getRestaurantDetails/{id}")
     public RestaurantJson getRestaurantDetails(@PathParam("id") int id) {
+
+        if (!UserData.userRole.equals(RoleKeys.RestaurantOwner))
+            return null;
+
         Restaurant restaurant = manager.getRestaurantDetails(id);
         //convert from Meal to meal Json
         List<MealJson> mealJsons = new ArrayList<>();
@@ -97,6 +98,10 @@ public class RestaurantServiceApi {
     @POST
     @Path("addMeal/{id}")
     public String addNewMeal(Meal meal, @PathParam("id") int id) {
+
+        if (!UserData.userRole.equals(RoleKeys.RestaurantOwner))
+            return "please sign as restaurant owner";
+
         Restaurant restaurant = manager.getRestaurantDetails(id);
         meal.setRestaurant(restaurant);
         managerMeal.addNewMeal(meal);
@@ -107,9 +112,12 @@ public class RestaurantServiceApi {
 
     @POST
     @Path("UpdateMeal/{id}/{mealId}")
-    @RolesAllowed({"Res"})
 
     public String updateMeal(Meal meal, @PathParam("id") int id, @PathParam("mealId") int mealId) {
+
+        if (!UserData.userRole.equals(RoleKeys.RestaurantOwner))
+            return "please sign as restaurant owner";
+
         Restaurant restaurant = manager.getRestaurantDetails(id);
         Set<Meal> meals = restaurant.getMeals();
         for (Meal resMeal : meals) {
@@ -127,6 +135,10 @@ public class RestaurantServiceApi {
     @POST
     @Path("deleteMeal/{id}/{mealId}")
     public String deleteMeal(@PathParam("id") int id, @PathParam("mealId") int mealId) {
+
+        if (!UserData.userRole.equals(RoleKeys.RestaurantOwner))
+            return "please sign as restaurant owner";
+
         Restaurant restaurant = manager.getRestaurantDetails(id);
         Set<Meal> meals = restaurant.getMeals();
         for (Meal resMeal : meals) {
@@ -144,6 +156,10 @@ public class RestaurantServiceApi {
     @GET
     @Path("getReport/{id}")
     public RestaurantReport getReport(@PathParam("id") int id) {
+
+        if (!UserData.userRole.equals(RoleKeys.RestaurantOwner))
+            return null;
+
         // var to sum
         int totalEarn = 0, completedOrders = 0, canceledOrders = 0;
 
@@ -159,8 +175,6 @@ public class RestaurantServiceApi {
         }
         return new RestaurantReport(totalEarn, completedOrders, canceledOrders);
     }
-
-
 
 
 }

@@ -1,6 +1,5 @@
 package services.manager;
 
-import com.redhat.model.Runner;
 import com.redhat.model.User;
 
 import javax.ejb.Stateless;
@@ -23,7 +22,7 @@ public class UserManager {
         TypedQuery<User> q = manager.createQuery("SELECT user  FROM User user", User.class);
         return q.getResultList();
     }
-    public User getRunner(int id) {
+    public User getUser(int id) {
         return manager.find(User.class, id);
     }
 

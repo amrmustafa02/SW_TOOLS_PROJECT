@@ -15,6 +15,8 @@ public class Orders implements Serializable {
     private String orderStatus;
     @ManyToOne
     private Restaurant orderRes;
+    private int customerId;
+
     @ManyToMany
     @JoinTable(
             name = "MealsXOrders",
@@ -31,7 +33,6 @@ public class Orders implements Serializable {
     public void setMeals(Set<Meal> meals) {
         this.meals = meals;
     }
-
 
     public Runner getRunner() {
         return runner;
@@ -83,5 +84,13 @@ public class Orders implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 }
