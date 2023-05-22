@@ -3,7 +3,6 @@ package Jsons_present;
 public class MealJson {
 
     int id;
-
     private String name;
     private double price;
 

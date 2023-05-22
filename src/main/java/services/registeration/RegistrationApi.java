@@ -1,13 +1,17 @@
 package services.registeration;
 
+import com.redhat.model.Runner;
 import com.redhat.model.User;
 import constants_data.RoleKeys;
+import constants_data.RunnerStatus;
+import services.manager.RunnerManager;
 import services.manager.UserManager;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.lang.ref.PhantomReference;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,6 +23,8 @@ import java.util.Objects;
 public class RegistrationApi {
     @Inject
     private UserManager manager;
+    @Inject
+    private RunnerManager runnerManager;
 
     @POST
     @Path("signUp")
@@ -34,8 +40,13 @@ public class RegistrationApi {
         }
 
         System.out.println("test1");
-
-        manager.addNewUser(user);
+        if (RoleKeys.RunnerOwner.equals(user.getRole())) {
+            Runner runner = new Runner();
+            runner.setName(user.getName());
+            runner.setStatus(RunnerStatus.available);
+            runnerManager.addNewRunner(runner);
+        } else
+            manager.addNewUser(user);
 
         return "Successfully sign up ,your id is " + user.getId();
     }

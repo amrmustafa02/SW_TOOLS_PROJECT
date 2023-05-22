@@ -2,6 +2,7 @@ package com.redhat.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -9,6 +10,7 @@ public class Orders implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderId;
+    private String date;
     private int totalPrice;
     private String orderStatus;
     @ManyToOne
@@ -73,5 +75,13 @@ public class Orders implements Serializable {
 
     public void setOrderRes(Restaurant orderRes) {
         this.orderRes = orderRes;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

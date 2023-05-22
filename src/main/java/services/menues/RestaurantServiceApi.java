@@ -17,7 +17,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +24,7 @@ import java.util.Set;
 @Produces(MediaType.APPLICATION_JSON)
 @Stateless
 @Path("/RestaurantOwner")
-public class RestaurantServicesApi {
+public class RestaurantServiceApi {
     @Inject
     private RestaurantManager manager;
     @Inject
@@ -77,8 +76,8 @@ public class RestaurantServicesApi {
         for (Meal meal : restaurant.getMeals()) {
             mealJsons.add(new MealJson(meal.getId(), meal.getName(), meal.getPrice()));
         }
-        List<OrderJson> orderJsons = new ArrayList<>();
 
+        List<OrderJson> orderJsons = new ArrayList<>();
         for (Orders order : restaurant.getOrders()) {
 
             orderJsons.add(new OrderJson(order.getTotalPrice(), order.getOrderStatus()));
@@ -132,7 +131,6 @@ public class RestaurantServicesApi {
                 managerMeal.removeMeal(resMeal);
                 meals.remove(resMeal);
                 manager.updateRestaurant(restaurant);
-
                 return "deleted successfully+ " + meals.size();
             }
         }
