@@ -7,19 +7,29 @@ import java.util.List;
 
 public class RunnerJson {
 
+
+    int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private String name;
 
     private String status;
 
     private double delivery_fees;
 
-//    List<OrderJson> orderJsons;
 
-    public RunnerJson(String name, String status, double delivery_fees, List<OrderJson> orderJsons) {
+    public RunnerJson(int id,String name, String status, double delivery_fees, List<OrderJson> orderJsons) {
         this.name = name;
+        this.id =id;
         this.status = status;
         this.delivery_fees = delivery_fees;
-//        this.orderJsons = orderJsons;
     }
 
     public String getName() {
@@ -46,11 +56,4 @@ public class RunnerJson {
         this.delivery_fees = delivery_fees;
     }
 
-//    public List<OrderJson> getOrderJsons() {
-//        return orderJsons;
-//    }
-//
-//    public void setOrderJsons(List<OrderJson> orderJsons) {
-//        this.orderJsons = orderJsons;
-//    }
 }

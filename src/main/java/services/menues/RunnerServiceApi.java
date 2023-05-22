@@ -1,8 +1,6 @@
 package services.menues;
 
 
-import Jsons_present.OrderJson;
-import Jsons_present.OrdersDetailsJson;
 import Jsons_present.RunnerJson;
 import com.redhat.model.Orders;
 import com.redhat.model.Runner;
@@ -12,7 +10,6 @@ import constants_data.RoleKeys;
 import constants_data.RunnerStatus;
 import constants_data.UserData;
 import services.manager.RunnerManager;
-import utils.CustomerUtils;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
@@ -36,11 +33,11 @@ public class RunnerServiceApi {
     @RolesAllowed({"admin"})
     public List<RunnerJson> getAllRunners() {
 
-        List<Runner> runners = runnerManager.getRunners();
+        List<Runner> runners = runnerManager.getAvailableRunners();
         List<RunnerJson> result = new ArrayList<>();
 
         for (Runner runner : runners) {
-            result.add(new RunnerJson(runner.getName(), runner.getStatus(), runner.getDelivery_fees(), null));
+            result.add(new RunnerJson(runner.getId(), runner.getName(), runner.getStatus(), runner.getDelivery_fees(), null));
         }
 
         return result;
@@ -63,14 +60,14 @@ public class RunnerServiceApi {
 
         // loop on orders and check the order
         for (Orders orders1 : orders) {
-            if (orders1.getOrderId() == orderId && !orders1.getOrderStatus().equals(OrderStatus.delivered)) {
+            if (orders1.getOrderId() == orderId && runner.getId() == orders1.getRunner().getId() && !orders1.getOrderStatus().equals(OrderStatus.delivered)) {
                 orders1.setOrderStatus(OrderStatus.delivered);
                 runner.setStatus(RunnerStatus.available);
                 return "successfully delivered";
             }
         }
 
-        return "Order not found in this runner";
+        return "Order not found in this runner,trt login with another runner";
     }
 
     @GET

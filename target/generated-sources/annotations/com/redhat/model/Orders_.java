@@ -13,6 +13,7 @@ public abstract class Orders_ {
 	public static volatile SingularAttribute<Orders, Restaurant> orderRes;
 	public static volatile SingularAttribute<Orders, Integer> orderId;
 	public static volatile SingularAttribute<Orders, Integer> totalPrice;
+	public static volatile SingularAttribute<Orders, Integer> customerId;
 	public static volatile SingularAttribute<Orders, String> orderStatus;
 	public static volatile SingularAttribute<Orders, Runner> runner;
 	public static volatile SetAttribute<Orders, Meal> meals;

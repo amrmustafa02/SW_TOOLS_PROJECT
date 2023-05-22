@@ -9,6 +9,7 @@ public class RestaurantJson {
     String name;
     List<MealJson> mealJson;
     List<OrdersDetailsJson> orderJson;
+    int ownerId;
 
     public List<OrdersDetailsJson> getOrderJson() {
         return orderJson;
@@ -40,5 +41,13 @@ public class RestaurantJson {
 
     public void setMealJson(List<MealJson> mealJson) {
         this.mealJson = mealJson;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 }

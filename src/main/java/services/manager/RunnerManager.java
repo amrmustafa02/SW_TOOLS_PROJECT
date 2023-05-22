@@ -1,6 +1,5 @@
 package services.manager;
 
-import com.redhat.model.Meal;
 import com.redhat.model.Runner;
 import constants_data.RunnerStatus;
 
@@ -31,13 +30,16 @@ public class RunnerManager {
         return manager.find(Runner.class, id);
     }
 
-    public List<Runner> getRunners() {
-
+    public List<Runner> getAllRunners() {
         TypedQuery<Runner> q = manager.createQuery("SELECT runner FROM Runner runner", Runner.class);
-        List<Runner> runners = q.getResultList();
+        return q.getResultList();
+    }
 
+
+    public List<Runner> getAvailableRunners() {
+
+        List<Runner> runners =getAllRunners();
         List<Runner> result = new ArrayList<>();
-
         for (Runner runner : runners) {
             if (runner.getStatus().equals(RunnerStatus.available)) {
                 result.add(runner);

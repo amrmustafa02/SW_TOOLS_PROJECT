@@ -22,10 +22,14 @@ public class CustomerUtils {
         return formatter.format(date);
     }
 
-    public static int getTotalPrice(Set<Meal> meals) {
+    public static int getTotalPrice(Set<Meal> meals, List<SendOrderJson> orderJson) {
         int sum = 0;
-        for (Meal meal : meals) {
-            sum += meal.getPrice();
+        for (SendOrderJson orderJson1 : orderJson) {
+            for (Meal meal : meals) {
+                if (meal.getId() == orderJson1.getMealId()) {
+                    sum += (meal.getPrice() * orderJson1.getCount());
+                }
+            }
         }
         return sum;
     }

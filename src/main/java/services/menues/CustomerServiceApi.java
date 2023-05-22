@@ -20,6 +20,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Stateless
@@ -60,11 +61,11 @@ public class CustomerServiceApi {
         order.setMeals(CustomerUtils.getMeals(restaurant.getMeals(), sendOrderJsons));
 
         // get random runner
-        Runner runner = CustomerUtils.getRandomRunner(runnerManager.getRunners());
+        Runner runner = CustomerUtils.getRandomRunner(runnerManager.getAvailableRunners());
         runner.setStatus(RunnerStatus.busy);
 
         // get total price
-        int totalPrice = CustomerUtils.getTotalPrice(order.getMeals());
+        int totalPrice = CustomerUtils.getTotalPrice(order.getMeals(), sendOrderJsons);
 
         // increase fees on total price
         totalPrice += runner.getDelivery_fees();
@@ -85,12 +86,12 @@ public class CustomerServiceApi {
         // add order to in restaurant
         restaurant.getOrders().add(order);
 
-        return "add successfully+ your order id is " + order.getOrderId();
+        return "add successfully your order id is " + order.getOrderId() + " and runner id is " + runner.getId();
     }
 
     @GET
-    @Path("getOrders/{id}")
-    public List<OrdersDetailsJson> getAllOrders(@PathParam("id") int id) {
+    @Path("getOrders")
+    public List<OrdersDetailsJson> getAllOrders() {
 
         List<Orders> orders = ordersManager.getAllOrders();
         List<OrdersDetailsJson> ordersDetailsJsons = new ArrayList<>();
@@ -116,20 +117,57 @@ public class CustomerServiceApi {
         return restaurantJsons;
     }
 
-    @Path("editOrder/{orderId}/{mealId}")
-    public String addMealToOrder(Meal meal, @PathParam("orderId") int orderId, @PathParam("mealId") int mealId) {
+    @POST
+    @Path("addMeal/{orderId}")
+    public String addMealToOrder(List<SendOrderJson> sendOrderJsons, @PathParam("orderId") int orderId) {
         List<Orders> orders = ordersManager.getAllOrders();
 
         for (Orders orders1 : orders) {
             if (orders1.getOrderId() == orderId) {
+
                 if (orders1.getCustomerId() != UserData.id) {
                     return "order not fount in this user";
                 }
-                orders1.getMeals().add(meal);
+
+                if (Objects.equals(orders1.getOrderStatus(), OrderStatus.canceled)) {
+                    return "order is canceled";
+                }
+                if (Objects.equals(orders1.getOrderStatus(), OrderStatus.delivered)) {
+                    return "order is delivered";
+                }
+                //get meals
+                Set<Meal> meals2 = CustomerUtils.getMeals(orders1.getOrderRes().getMeals(), sendOrderJsons);
+
+                for (Meal meal : meals2) {
+                    orders1.getMeals().add(meal);
+                }
+
                 return "add successfully";
             }
         }
         return "order not found";
+
+    }
+
+    @POST
+    @Path("deleteMeal/{orderId}/{mealId}")
+    public String deleteMealToOrder(@PathParam("orderId") int orderId, @PathParam("mealId") int mealId) {
+        List<Orders> orders = ordersManager.getAllOrders();
+
+        for (Orders orders1 : orders) {
+            if (orders1.getOrderId() == orderId) {
+                if (Objects.equals(orders1.getOrderStatus(), OrderStatus.canceled)) {
+                    return "order is canceled";
+                }
+                if (Objects.equals(orders1.getOrderStatus(), OrderStatus.delivered)) {
+                    return "order is delivered";
+                }
+                orders1.getMeals().removeIf(meal1 -> meal1.getId() == mealId);
+
+                return "delete successfully";
+            }
+        }
+        return "order not found,or meal not found in this order";
 
     }
 

@@ -93,14 +93,13 @@ public class RegistrationApi {
     @Path("runnerLogin/{userName}/{password}")
     @RolesAllowed({"Runner"})
     public String runnerSignIn(@PathParam("userName") String userName, @PathParam("password") String password) {
-        if (!checkUserIfExist(userName, password)) {
+        if (!checkRunnerIfExist(userName, password)) {
             return "Runner not found,Please sign up first";
         }
-        for (Runner user1 : runnerManager.getRunners()) {
+        for (Runner user1 : runnerManager.getAllRunners()) {
             if (user1.getUserName().equals(userName) && user1.getPassword().equals(password)) {
                 UserData.userRole = RoleKeys.RunnerOwner;
                 UserData.id = user1.getId();
-
                 break;
             }
         }
@@ -126,7 +125,7 @@ public class RegistrationApi {
     }
 
     public boolean checkRunnerIfExist(String userName, String password) {
-        List<Runner> users = runnerManager.getRunners();
+        List<Runner> users = runnerManager.getAllRunners();
         for (Runner user : users) {
             if (user.getUserName().equals(userName) && Objects.equals(user.getPassword(), password)) {
                 return true;

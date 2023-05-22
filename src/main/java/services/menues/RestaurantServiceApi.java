@@ -40,7 +40,7 @@ public class RestaurantServiceApi {
     public String addNewRestaurant(Restaurant restaurant) {
 
         if (!UserData.userRole.equals(RoleKeys.RestaurantOwner))
-            return "please sign as restaurant owner";
+            return "please sign in as restaurant owner";
 
         restaurant.setOwnerId(UserData.id);
         manager.addNewRestaurant(restaurant);
@@ -57,8 +57,7 @@ public class RestaurantServiceApi {
         }
 
         try {
-            Restaurant restaurant1 = manager.getRestaurantDetails(restaurant.getId());
-            return "success create restaurant,your id:" + restaurant1.getId() + " ----" + restaurant1.getOrders().size();
+            return "success create restaurant,your id:" + restaurant.getId() ;
         } catch (Exception exception) {
             return "Error";
         }
@@ -91,6 +90,7 @@ public class RestaurantServiceApi {
         restaurantJson.setId(restaurant.getId());
         restaurantJson.setName(restaurant.getName());
         restaurantJson.setOrderJson(orderJsons);
+        restaurantJson.setOwnerId(restaurant.getOwnerId());
 
         return restaurantJson;
     }

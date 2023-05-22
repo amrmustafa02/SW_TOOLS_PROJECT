@@ -43,7 +43,6 @@
   </login-config>
 
 
-
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>All resources</web-resource-name>
