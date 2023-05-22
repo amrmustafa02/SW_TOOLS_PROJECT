@@ -14,6 +14,7 @@ import services.manager.RestaurantManager;
 import services.manager.RunnerManager;
 import utils.CustomerUtils;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -25,6 +26,8 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/customerService")
+@RolesAllowed({"Customer"})
+
 public class CustomerServiceApi {
     @Inject
     private RestaurantManager manager;

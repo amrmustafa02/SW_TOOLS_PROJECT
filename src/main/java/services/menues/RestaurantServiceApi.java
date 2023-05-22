@@ -23,6 +23,8 @@ import java.util.Set;
 @Produces(MediaType.APPLICATION_JSON)
 @Stateless
 @Path("/RestaurantOwner")
+@RolesAllowed({"Res"})
+
 public class RestaurantServiceApi {
     @Inject
     private RestaurantManager manager;
@@ -33,7 +35,6 @@ public class RestaurantServiceApi {
 
     @POST
     @Path("addNewRestaurant")
-    @RolesAllowed({"Res"})
     public String addNewRestaurant(Restaurant restaurant) {
 
         System.out.println("------------------------------------------------------");
@@ -106,6 +107,8 @@ public class RestaurantServiceApi {
 
     @POST
     @Path("UpdateMeal/{id}/{mealId}")
+    @RolesAllowed({"Res"})
+
     public String updateMeal(Meal meal, @PathParam("id") int id, @PathParam("mealId") int mealId) {
         Restaurant restaurant = manager.getRestaurantDetails(id);
         Set<Meal> meals = restaurant.getMeals();
@@ -137,14 +140,6 @@ public class RestaurantServiceApi {
         return "meal not found in this restaurant";
     }
 
-    @POST
-    @Path("addOrder")
-    @RolesAllowed({"Customer"})
-    public OrderJson addOrder(Orders orders) {
-        // order.setOrderRes(null);
-        orderManager.addNewOrder(orders);
-        return new OrderJson(orders.getTotalPrice(), orders.getOrderStatus());
-    }
 
     @GET
     @Path("getReport/{id}")

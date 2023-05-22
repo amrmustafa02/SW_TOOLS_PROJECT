@@ -14,6 +14,7 @@ import constants_data.UserData;
 import services.manager.RunnerManager;
 import utils.CustomerUtils;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -32,6 +33,8 @@ public class RunnerServiceApi {
 
     @GET
     @Path("getRunners")
+    @RolesAllowed({"admin"})
+
     public List<RunnerJson> getAllRunners() {
 
         List<Runner> runners = runnerManager.getRunners();
@@ -46,6 +49,7 @@ public class RunnerServiceApi {
 
     @POST
     @Path("markOrder/{runnerId}/{orderId}")
+    @RolesAllowed({"Runner"})
     public String markOrder(@PathParam("orderId") int orderId, @PathParam("runnerId") int runnerId) {
         if (!UserData.userRole.equals(RoleKeys.RunnerOwner)) {
             return "please sign as runner";
@@ -71,6 +75,7 @@ public class RunnerServiceApi {
 
     @GET
     @Path("getOrder/{id}")
+    @RolesAllowed({"Runner"})
     public String getAllOrders(@PathParam("id") int id) {
         int totalNumberOfCompletedOrders = 0;
         Runner runner = runnerManager.getRunner(id);
@@ -82,9 +87,7 @@ public class RunnerServiceApi {
                 totalNumberOfCompletedOrders++;
             }
         }
-
         return "total number of completed orders is " + totalNumberOfCompletedOrders;
-
 
     }
 }
