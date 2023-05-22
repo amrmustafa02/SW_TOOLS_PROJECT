@@ -48,13 +48,16 @@ public class RegistrationApi {
 
         UserData.userRole = user.getRole();
 
-        return "Successfully sign up as user";
+        return "Successfully sign up as user ,your id is "+user.getId();
     }
 
     @POST
     @Path("runnerSignUp")
     @RolesAllowed({"Runner"})
     public String runnerSignUp(Runner runner) {
+        if (checkRunnerIfExist(runner.getUserName(), runner.getPassword())) {
+            return "Runner already exist";
+        }
 
         runnerManager.addNewRunner(runner);
 
@@ -65,6 +68,8 @@ public class RegistrationApi {
 
     @GET
     @Path("login/{userName}/{password}")
+    @RolesAllowed({"Customer","Res"})
+
     public String signIn(@PathParam("userName") String userName, @PathParam("password") String password) {
         if (!checkUserIfExist(userName, password)) {
             return "User not found,Please sign up first";
@@ -81,15 +86,17 @@ public class RegistrationApi {
 
     @GET
     @Path("runnerLogin/{userName}/{password}")
+    @RolesAllowed({"Runner"})
     public String runnerSignIn(@PathParam("userName") String userName, @PathParam("password") String password) {
         if (!checkUserIfExist(userName, password)) {
-            return "User not found,Please sign up first";
+            return "Runner not found,Please sign up first";
         }
         return "Success Login";
     }
 
     @GET
     @Path("getAllUsers")
+    @RolesAllowed({"admin"})
     public List<User> getUsers() {
         return manager.getAllUsers();
     }
@@ -103,6 +110,16 @@ public class RegistrationApi {
         }
         return false;
     }
+    public boolean checkRunnerIfExist(String userName, String password) {
+        List<Runner> users = runnerManager.getRunners();
+        for (Runner user : users) {
+            if (user.getUserName().equals(userName) && Objects.equals(user.getPassword(), password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public boolean checkIfRoleIsAlready(String role) {
         return RoleKeys.RunnerOwner.equals(role) || RoleKeys.RestaurantOwner.equals(role) || RoleKeys.CustomerOwner.equals(role);
