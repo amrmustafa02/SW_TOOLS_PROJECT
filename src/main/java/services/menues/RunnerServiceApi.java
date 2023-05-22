@@ -67,7 +67,7 @@ public class RunnerServiceApi {
             }
         }
 
-        return "Order not found in this runner,trt login with another runner";
+        return "Order not found in this runner or order is already (canceled,delivered) or try login with another runner";
     }
 
     @GET

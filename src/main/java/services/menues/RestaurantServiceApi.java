@@ -107,7 +107,7 @@ public class RestaurantServiceApi {
         managerMeal.addNewMeal(meal);
         restaurant.getMeals().add(meal);
         manager.updateRestaurant(restaurant);
-        return "add successfully+ " + meal.getId();
+        return "add successfully meal id is " + meal.getId();
     }
 
     @POST

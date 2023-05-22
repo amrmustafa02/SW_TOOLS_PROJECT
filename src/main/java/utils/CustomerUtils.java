@@ -27,7 +27,8 @@ public class CustomerUtils {
         for (SendOrderJson orderJson1 : orderJson) {
             for (Meal meal : meals) {
                 if (meal.getId() == orderJson1.getMealId()) {
-                    sum += (meal.getPrice() * orderJson1.getCount());
+                    meal.setPrice((meal.getPrice() * orderJson1.getCount()));
+                    sum += meal.getPrice();
                 }
             }
         }
